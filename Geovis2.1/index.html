@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	<link rel="stylesheet" type ="text/css" href="style.css">
+	<link rel="javascript" type="text/javascript" href="script.js">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script src ="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+
+	<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+
+	<script src='https://api.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.js'></script>
+
+<link href='https://api.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.css' rel='stylesheet' />
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</head>
+<body>
+      <nav class=""navbar navbar-default"">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#" value="Refresh Page" onClick="window.location.reload()">Explorateur de modélisation pendulaire</a>
+
+      </div>
+    </nav>
+<div id="flex-container">
+	<div class = primary >
+		<div id='map'></div>
+		<script>
+		mapboxgl.accessToken = 'pk.eyJ1IjoiY3N0YWRsZXIiLCJhIjoiY2l1aTl6d3BxMDAyNDJ0cGNpNzk0cXpraCJ9.5psL5TmGblwWmXAJHRlnDA';
+		var map = new mapboxgl.Map({
+		  container:'map',
+		  style:'mapbox://styles/cstadler/ciuiaakl2002g2inocdf5jsak',
+			center:[-91,36],
+			zoom:3
+			});
+			$.getJSON('county.geojson', function(geojson){
+				var layer = L.geoJson(geojson, {
+             style: getStyle,
+             
+         });
+         map.fitBounds(layer.getBounds()).addLayer(layer).addLayer(tiles);
+     });
+
+     function getStyle() {
+         return {
+             color: '#666',
+             opacity: 0.9,
+             fillColor: '#ddd',
+             fillOpacity: 0.4,
+             weight: 4
+         };
+     }
+
+
+
+
+		</script>
+
+
+
+
+		<!-- <div class = MapHolder>
+			<div class = Slider><input onchange='setImage(this);updateTextInput(this.value);' type="range" min="0" max="1" value="0" step="1" />
+													<input type="text" id="textInput" value="0">
+<img id='img' src="OD2000_Flows.jpg" width=1029px height=676.5px />
+
+<script type="text/javascript">
+var img = document.getElementById('img');
+var img_array = ["OD2000_Flows.jpg", "Rad2000_Flows.jpg"];
+function setImage(obj)
+{
+	var value = obj.value;
+	img.src = img_array[value];
+}
+function showValue(newValue){
+	document.getElementById("range");
+}
+
+function updateTextInput() {
+	if(document.getElementById('value')==0){
+		document.getElementById('textInput').value="OD"
+	}
+	else{
+		document.getElementById('textInput').value="Rad"
+	}
+} -->
+
+<!-- </script> -->
+
+<!-- </div> -->
+</div>
+
+
+</div>
+<div class = secondary >
+	<div class = Modèle>	<h3>Sélection du modèle</h3>
+	<h4>Set de données : <label for="radio-choice-1">Données 2000</label>
+		<input type="radio" name="radio-choice" id="radio-choice-1" value="choice-1" checked="choice-1"/>
+    <label for="radio-choice-2">Données 2013</label>
+    <input type="radio" name="radio-choice" id="radio-choice-2" value="choice-2"/></h4>
+
+	<h4>Modèle : <label for="radio-choice-2">Radiatif</label>
+		<input type="radio" name="radio-choice2" id="radio-choice-2" value="choice-3" checked="choice-3"/>
+    <label for="radio-choice-2">Gravitaire</label>
+    <input type="radio" name="radio-choice2" id="radio-choice-2" value="choice-4" /></h4>
+	</div>
+	<div class =Description><h3>Description du modèle</h3>
+<h4> Modèle gravitaire : <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mrow>
+    <msub>
+      <mi>T</mi>
+      <mrow>
+        <mi>i</mi>
+        <mi>j</mi>
+      </mrow>
+    </msub>
+    <mo>=</mo>
+    <mi>A</mi>
+    <mfrac>
+      <mrow>
+        <msub>
+          <mi>m</mi>
+          <mi>i</mi>
+        </msub>
+        <msub>
+          <mi>n</mi>
+          <mi>j</mi>
+        </msub>
+      </mrow>
+      <msubsup>
+        <mi>r</mi>
+        <mrow>
+          <mi>i</mi>
+          <mi>j</mi>
+        </mrow>
+        <mi>&#x3B3;</mi>
+      </msubsup>
+    </mfrac>
+  </mrow>
+</math> (Zipf, 1946)</h4>
+<h4>Modèle radiatif : <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mrow>
+    <msub>
+      <mi>T</mi>
+      <mrow>
+        <mi>i</mi>
+        <mi>j</mi>
+      </mrow>
+    </msub>
+    <mo>=</mo>
+    <mfrac>
+      <msub>
+        <mi>T</mi>
+        <mrow>
+          <mi>i</mi>
+          <mo>&#x2022;</mo>
+        </mrow>
+      </msub>
+      <mrow>
+        <mn>1</mn>
+        <mo>-</mo>
+        <mfrac>
+          <msub>
+            <mi>m</mi>
+            <mi>i</mi>
+          </msub>
+          <mi>M</mi>
+        </mfrac>
+      </mrow>
+    </mfrac>
+    <mfrac>
+      <mrow>
+        <msub>
+          <mi>m</mi>
+          <mi>i</mi>
+        </msub>
+        <msub>
+          <mi>n</mi>
+          <mi>j</mi>
+        </msub>
+      </mrow>
+      <mrow>
+        <mrow>
+          <mo>(</mo>
+          <msub>
+            <mi>m</mi>
+            <mi>i</mi>
+          </msub>
+          <mo>+</mo>
+          <msub>
+            <mi>s</mi>
+            <mrow>
+              <mi>i</mi>
+              <mi>j</mi>
+            </mrow>
+          </msub>
+          <mo>)</mo>
+        </mrow>
+        <mrow>
+          <mo>(</mo>
+          <msub>
+            <mi>m</mi>
+            <mi>i</mi>
+          </msub>
+          <mo>+</mo>
+          <msub>
+            <mi>n</mi>
+            <mi>j</mi>
+          </msub>
+          <mo>+</mo>
+          <msub>
+            <mi>s</mi>
+            <mrow>
+              <mi>i</mi>
+              <mi>j</mi>
+            </mrow>
+          </msub>
+          <mo>)</mo>
+        </mrow>
+      </mrow>
+    </mfrac>
+  </mrow>
+</math>(Masucci et al., 2013)</h4>
+	</div>
+	<div class = Fit><h3>Fit du modèle</h3></div>
+</div>
+</div>
+</body>
+</html>
